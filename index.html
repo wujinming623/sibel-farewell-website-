@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sibel Farewell Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .photo {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease-in-out;
+        }
+        .photo:hover img {
+            transform: scale(1.1);
+        }
+        .message {
+            margin-top: 10px;
+            font-style: italic;
+            color: #555;
+        }
+        input, textarea, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sibel Farewell Website</h1>
+        <p>Upload your pictures and share your thoughts!</p>
+
+        <input type="file" id="fileInput" accept="image/*">
+        <textarea id="messageInput" placeholder="Write your message..."></textarea>
+        <button onclick="uploadImage()">Upload</button>
+
+        <h2>Gallery</h2>
+        <div id="gallery"></div>
+    </div>
+
+    <script>
+        const gallery = document.getElementById("gallery");
+
+        function uploadImage() {
+            const fileInput = document.getElementById("fileInput");
+            const messageInput = document.getElementById("messageInput");
+
+            if (fileInput.files.length === 0) {
+                alert("Please select an image.");
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const imageUrl = event.target.result;
+                displayImage(imageUrl, messageInput.value);
+                fileInput.value = "";
+                messageInput.value = "";
+            };
+
+            reader.readAsDataURL(file);
+        }
+
+        function displayImage(imageUrl, message) {
+            const photoDiv = document.createElement("div");
+            photoDiv.classList.add("photo");
+
+            const img = document.createElement("img");
+            img.src = imageUrl;
+            photoDiv.appendChild(img);
+
+            if (message.trim() !== "") {
+                const messageDiv = document.createElement("div");
+                messageDiv.classList.add("message");
+                messageDiv.textContent = message;
+                photoDiv.appendChild(messageDiv);
+            }
+
+            gallery.appendChild(photoDiv);
+        }
+    </script>
+</body>
+</html>
